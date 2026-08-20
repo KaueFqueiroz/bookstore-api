@@ -1,0 +1,54 @@
+package com.kauequeiroz.bookstore_api.controller;
+
+
+import com.kauequeiroz.bookstore_api.model.Livro;
+import com.kauequeiroz.bookstore_api.service.LivroService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/livros")
+public class LivroController {
+
+    @Autowired
+    private LivroService livroService;
+
+
+    @GetMapping
+    public List<Livro> listarTodos(){
+        return livroService.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public Livro buscarPorId(@PathVariable Long id) {
+        return livroService.buscarPorId(id);
+    }
+
+    @PostMapping
+    public Livro cadastrar(@RequestParam String titulo,
+                           @RequestParam String autor,
+                           @RequestParam int anoPublicacao,
+                           @RequestParam int exemplares){
+        return livroService.cadastrarLivro(titulo, autor, anoPublicacao, exemplares);
+    }
+
+    @PutMapping("/emprestimo")
+    public String emprestimo(@RequestParam String titulo) {
+        return livroService.emprestimo(titulo);
+    }
+
+    @PutMapping("/devolucao")
+    public String devolucao(@RequestParam String titulo){
+        return livroService.devolucao(titulo);
+    }
+
+    @GetMapping("/disponibilidade")
+    public String consultarDisponibilidade(@RequestParam String titulo) {
+        int quantidade = livroService.consultarDisponibilidade(titulo);
+        return "Exemplares disponíveis de '" + titulo + "': " + quantidade;
+
+    }
+
+}
