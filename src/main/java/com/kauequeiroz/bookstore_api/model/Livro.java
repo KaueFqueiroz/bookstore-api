@@ -1,5 +1,11 @@
 package com.kauequeiroz.bookstore_api.model;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "livros")
 public class Livro {
 
     private Long id;
@@ -14,6 +20,9 @@ public class Livro {
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
         this.exemplares = exemplares;
+    }
+
+    public Livro(){
     }
 
     public Long getId() {
