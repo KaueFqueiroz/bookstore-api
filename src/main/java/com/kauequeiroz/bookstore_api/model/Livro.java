@@ -1,21 +1,22 @@
 package com.kauequeiroz.bookstore_api.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "livros")
 public class Livro {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String titulo;
     private String autor;
     private int anoPublicacao;
     private int exemplares;
 
-    public Livro(Long id, String titulo, String autor, int anoPublicacao, int exemplares){
-        this.id = id;
+    public Livro(String titulo, String autor, int anoPublicacao, int exemplares){
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
