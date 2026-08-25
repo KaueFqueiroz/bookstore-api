@@ -13,6 +13,9 @@ API REST de gerenciamento de biblioteca construída com Spring Boot, baseada no 
 | PUT | /livros/devolucao | Realiza devolução |
 | GET | /livros/disponibilidade | Consulta exemplares disponíveis |
 | GET | /h2-console | Console do banco de dados (dev) |
+| POST | /autores | Cadastra novo autor |
+| GET  | /autores | Lista todos os autores |
+| GET  | /autores/{id} | Busca autor por ID |
 
 ## Tecnologias
 

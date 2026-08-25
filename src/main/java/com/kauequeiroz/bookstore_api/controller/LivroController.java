@@ -1,7 +1,9 @@
 package com.kauequeiroz.bookstore_api.controller;
 
 
+import com.kauequeiroz.bookstore_api.model.Autor;
 import com.kauequeiroz.bookstore_api.model.Livro;
+import com.kauequeiroz.bookstore_api.service.AutorService;
 import com.kauequeiroz.bookstore_api.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ public class LivroController {
 
     @Autowired
     private LivroService livroService;
+
+    @Autowired
+    private AutorService autorService;
 
 
     @GetMapping
@@ -28,9 +33,10 @@ public class LivroController {
 
     @PostMapping
     public Livro cadastrar(@RequestParam String titulo,
-                           @RequestParam String autor,
+                           @RequestParam Long autorId,
                            @RequestParam int anoPublicacao,
                            @RequestParam int exemplares){
+        Autor autor = autorService.buscarPorId(autorId);
         return livroService.cadastrarLivro(titulo, autor, anoPublicacao, exemplares);
     }
 
