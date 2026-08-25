@@ -8,15 +8,20 @@ import jakarta.persistence.*;
 public class Livro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     private String titulo;
-    private String autor;
     private int anoPublicacao;
     private int exemplares;
 
-    public Livro(String titulo, String autor, int anoPublicacao, int exemplares){
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Autor autor;
+
+    public Livro(String titulo, Autor autor, int anoPublicacao, int exemplares){
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
@@ -34,7 +39,7 @@ public class Livro {
         return titulo;
     }
 
-    public String getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 

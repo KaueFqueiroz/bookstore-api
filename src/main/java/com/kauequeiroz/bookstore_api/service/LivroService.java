@@ -1,5 +1,6 @@
 package com.kauequeiroz.bookstore_api.service;
 
+import com.kauequeiroz.bookstore_api.model.Autor;
 import com.kauequeiroz.bookstore_api.model.Livro;
 import com.kauequeiroz.bookstore_api.model.exception.LivroIndisponivelException;
 import com.kauequeiroz.bookstore_api.model.exception.LivroNaoEncontradoException;
@@ -15,7 +16,7 @@ public class LivroService {
     @Autowired
     private LivroRepository livroRepository;
 
-    public Livro cadastrarLivro(String titulo, String autor, int anoPublicacao, int exemplares) {
+    public Livro cadastrarLivro(String titulo, Autor autor, int anoPublicacao, int exemplares) {
         // verifica se já existe — mesma lógica de antes
         return livroRepository.findByTituloIgnoreCase(titulo)
                 .map(livroExistente -> {
