@@ -16,6 +16,9 @@ API REST de gerenciamento de biblioteca construída com Spring Boot, baseada no 
 | POST | /autores | Cadastra novo autor |
 | GET  | /autores | Lista todos os autores |
 | GET  | /autores/{id} | Busca autor por ID |
+| PUT | /livros/emprestimo | Realiza empréstimo (adiciona à fila se indisponível) |
+| GET | /livros/fila | Retorna fila de espera atual |
+| GET | /livros/historico | Retorna histórico de todas as operações |
 
 ## Tecnologias
 

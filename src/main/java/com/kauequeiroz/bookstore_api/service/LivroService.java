@@ -1,6 +1,8 @@
 package com.kauequeiroz.bookstore_api.service;
 
 import com.kauequeiroz.bookstore_api.model.Autor;
+import com.kauequeiroz.bookstore_api.model.FilaEspera;
+import com.kauequeiroz.bookstore_api.model.HistoricoOperacoes;
 import com.kauequeiroz.bookstore_api.model.Livro;
 import com.kauequeiroz.bookstore_api.model.exception.LivroIndisponivelException;
 import com.kauequeiroz.bookstore_api.model.exception.LivroNaoEncontradoException;
@@ -16,6 +18,9 @@ public class LivroService {
     @Autowired
     private LivroRepository livroRepository;
 
+    private FilaEspera filaEspera = new FilaEspera(); // fila de espera para livros indisponíveis
+    private HistoricoOperacoes historico = new HistoricoOperacoes();
+
     public Livro cadastrarLivro(String titulo, Autor autor, int anoPublicacao, int exemplares) {
         // verifica se já existe — mesma lógica de antes
         return livroRepository.findByTituloIgnoreCase(titulo)
@@ -29,12 +34,16 @@ public class LivroService {
                 });
     }
 
-    public String emprestimo(String titulo) {
+    public String emprestimo(String titulo, String nomeCliente) {
         Livro livro = buscarPorTitulo(titulo);
         if (livro.getExemplares() <= 0) {
-            throw new LivroIndisponivelException("Livro '" + titulo + "' sem exemplares disponíveis.");
+            filaEspera.adicionarAFila(nomeCliente); // adiciona o cliente na fila de espera
+            historico.addOperacao("Fila de espera: " + nomeCliente + " aguardando " + titulo); // registra na pilha
+            return "Livro indisponível. " + nomeCliente + " adicionado à fila de espera.";
         }
+
         livro.setExemplares(livro.getExemplares() - 1);
+        historico.addOperacao("Empréstimo: " + titulo + " para " + nomeCliente);
         livroRepository.save(livro);
         return "Empréstimo de '" + titulo + "' realizado com sucesso!";
     }
@@ -44,6 +53,14 @@ public class LivroService {
         livro.setExemplares(livro.getExemplares() + 1);
         livroRepository.save(livro);
         return "Livro '" + titulo + "' devolvido com sucesso!";
+    }
+
+    public List<String> verHistorico() {
+        return historico.verHistorico();
+    }
+
+    public List<String> verFilaEspera() {
+        return filaEspera.verFila();
     }
 
     public List<Livro> listarTodos() {

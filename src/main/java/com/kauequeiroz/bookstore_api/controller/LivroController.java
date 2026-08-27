@@ -40,8 +40,10 @@ public class LivroController {
     }
 
     @PutMapping("/emprestimo")
-    public String emprestimo(@RequestParam String titulo) {
-        return livroService.emprestimo(titulo);
+    public String emprestimo(@RequestParam String titulo,
+                             @RequestParam String nomeCliente) {
+
+        return livroService.emprestimo(titulo, nomeCliente);
     }
 
     @PutMapping("/devolucao")
@@ -54,6 +56,17 @@ public class LivroController {
         int quantidade = livroService.consultarDisponibilidade(titulo);
         return "Exemplares disponíveis de '" + titulo + "': " + quantidade;
 
+    }
+
+    @GetMapping("/historico")
+    public List<String> verHistorico() {
+        return livroService.verHistorico();
+    }
+
+
+    @GetMapping("/fila")
+    public List<String> verFilaEspera() {
+        return livroService.verFilaEspera();
     }
 
 }
