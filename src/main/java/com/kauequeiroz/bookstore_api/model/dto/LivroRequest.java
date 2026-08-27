@@ -9,7 +9,7 @@ public class LivroRequest {
     private String titulo;
 
     @NotNull(message = "Autor é obrigatório")
-    private Long AutorId;
+    private Long autorId;
 
     @Min(value = 1000, message = "Ano de publicação inválido")
     @Max(value = 2026, message = "Ano de publicação não pode ser no futuro")
@@ -23,7 +23,7 @@ public class LivroRequest {
     }
 
     public Long getAutorId() {
-        return AutorId;
+        return autorId;
     }
 
     public int getAnoPublicacao() {

@@ -2,7 +2,9 @@ package com.kauequeiroz.bookstore_api.controller;
 
 
 import com.kauequeiroz.bookstore_api.model.Autor;
+import com.kauequeiroz.bookstore_api.model.dto.AutorRequest;
 import com.kauequeiroz.bookstore_api.service.AutorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +18,8 @@ public class AutorController {
     private AutorService autorService;
 
     @PostMapping
-    public Autor cadastrar(@RequestParam String nome,
-                           @RequestParam String nacionalidade){
-        return autorService.cadastrar(nome, nacionalidade);
+    public Autor cadastrar(@Valid @RequestBody AutorRequest request){
+        return autorService.cadastrar(request.getNome(), request.getNacionalidade());
     }
 
     @GetMapping

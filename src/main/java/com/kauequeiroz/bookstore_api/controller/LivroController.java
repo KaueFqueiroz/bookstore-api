@@ -3,8 +3,10 @@ package com.kauequeiroz.bookstore_api.controller;
 
 import com.kauequeiroz.bookstore_api.model.Autor;
 import com.kauequeiroz.bookstore_api.model.Livro;
+import com.kauequeiroz.bookstore_api.model.dto.LivroRequest;
 import com.kauequeiroz.bookstore_api.service.AutorService;
 import com.kauequeiroz.bookstore_api.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +34,9 @@ public class LivroController {
     }
 
     @PostMapping
-    public Livro cadastrar(@RequestParam String titulo,
-                           @RequestParam Long autorId,
-                           @RequestParam int anoPublicacao,
-                           @RequestParam int exemplares){
-        Autor autor = autorService.buscarPorId(autorId);
-        return livroService.cadastrarLivro(titulo, autor, anoPublicacao, exemplares);
+    public Livro cadastrar(@Valid @RequestBody LivroRequest request){
+        Autor autor = autorService.buscarPorId(request.getAutorId());
+        return livroService.cadastrarLivro(request.getTitulo(), autor, request.getAnoPublicacao(), request.getExemplares());
     }
 
     @PutMapping("/emprestimo")
