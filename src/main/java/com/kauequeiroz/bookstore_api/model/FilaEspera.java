@@ -1,30 +1,49 @@
 package com.kauequeiroz.bookstore_api.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class FilaEspera {
 
-    private List<String> fila = new ArrayList<>();
+   public String[] fila;
+   private int tamanho;
+   private int capacidade;
 
 
-    public void adicionarAFila(String nomeCliente) {
-        fila.add(nomeCliente);
-    }
+   public FilaEspera(){
+       this.capacidade = 100;
+       this.fila = new String[capacidade];
+       this.tamanho = 0;
+   }
 
-    public String removerPrimeiro() {
-        if (!fila.isEmpty()) {
-            return fila.remove(0);
-        }
-        return null;
-    }
+   public void adicionarFila(String nomeCliente){
+       if (tamanho < capacidade){
+           fila[tamanho++] = nomeCliente;
+       }
+   }
 
-    public boolean filaVazia() {
-        return fila.isEmpty();
-    }
+   public String removerPrimeiro(){
+       if (tamanho > 0){
+           String cliente = fila[0];
+           for (int i = 0; i < tamanho - 1; i++){
+               fila[i] = fila[i + 1];
+           }
+           tamanho--;
+           return cliente;
+       }
+       return null;
+   }
 
-    public List<String> verFila() {
-        return fila;
-    }
+   public boolean filaVazia(){
+       return tamanho == 0;
+   }
+
+   public List<String> verFila(){
+       if (tamanho == 0){
+           return List.of("Nenhum cliente na fila.");
+       }
+       return Arrays.asList(Arrays.copyOfRange(fila, 0, tamanho));
+   }
 }
