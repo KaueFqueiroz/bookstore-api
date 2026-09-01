@@ -36,7 +36,7 @@ public class HistoricoOperacoes {
        }
 
        public List<String> verHistorico(){
-            if(topo == 1){
+            if(topo == -1){
                 return List.of("Histórico vazio");
             }
             return Arrays.asList(Arrays.copyOfRange(historico, 0, topo + 1));

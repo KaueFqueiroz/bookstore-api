@@ -1,13 +1,12 @@
 package com.kauequeiroz.bookstore_api.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 public class FilaEspera {
 
-   public String[] fila;
+   private String[] fila;
    private int tamanho;
    private int capacidade;
 
