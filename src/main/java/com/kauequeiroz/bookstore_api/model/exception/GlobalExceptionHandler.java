@@ -20,13 +20,6 @@ public class GlobalExceptionHandler {
                 .body(new ApiErroResponse(e.getMessage()));
     }
 
-    @ExceptionHandler(LivroNaoEncontradoException.class)
-    public ResponseEntity<ApiErroResponse> handleLivroIndisponivel(LivroIndisponivelException e){
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new ApiErroResponse(e.getMessage()));
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErroResponse> handleValidacao(MethodArgumentNotValidException e) {
         String mensagem = e.getBindingResult()

@@ -91,4 +91,5 @@ public class LivroService {
         return livroRepository.findByTituloIgnoreCase(titulo)
                 .orElseThrow(() -> new LivroNaoEncontradoException("Livro '" + titulo + "' não encontrado."));
     }
+
 }
