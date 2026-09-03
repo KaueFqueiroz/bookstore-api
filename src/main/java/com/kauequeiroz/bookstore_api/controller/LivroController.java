@@ -69,5 +69,24 @@ public class LivroController {
         return livroService.verFilaEspera();
     }
 
+    @GetMapping("/disponiveis")
+    public List<Livro> buscarDisponiveis(){
+        return livroService.buscarDisponiveis();
+    }
+
+    @GetMapping("/buscar")
+    public List<Livro> buscarPorTrechoTitulo(@RequestParam String titulo){
+        return livroService.buscarPorTrechoTitulo(titulo);
+    }
+
+    @GetMapping("/autor")
+    public List<Livro> buscarPorNomeAutor(@RequestParam String nomeAutor){
+        return livroService.buscarPorNomeAutor(nomeAutor);
+    }
+
+    @GetMapping("/count")
+    public Long contarDisponiveis(){
+        return livroService.contarDisponiveis();
+    }
 
 }

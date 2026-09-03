@@ -92,4 +92,20 @@ public class LivroService {
                 .orElseThrow(() -> new LivroNaoEncontradoException("Livro '" + titulo + "' não encontrado."));
     }
 
+    public List<Livro> buscarDisponiveis(){
+        return livroRepository.buscarDisponiveis();
+    }
+
+    public List<Livro> buscarPorTrechoTitulo(String titulo){
+        return livroRepository.buscarPorTrechoTitulo(titulo);
+    }
+
+    public List<Livro>buscarPorNomeAutor(String nomeAutor){
+        return livroRepository.buscarPorNomeAutor(nomeAutor);
+    }
+
+    public Long contarDisponiveis(){
+        return livroRepository.contarDisponiveis();
+    }
+
 }
