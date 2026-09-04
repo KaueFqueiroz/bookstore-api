@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,10 @@ import java.util.Optional;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-    Optional<Livro> findByTituloIgnoreCase(String titulo);
+   Optional<Livro> findFirstByTituloIgnoreCase(String titulo);
+
+   @Query("SELECT l FROM Livro l WHERE l.exemplares > 0")
+   Page<Livro> buscarDisponiveisPaginado(Pageable pageable);
 
     @Query("SELECT l FROM Livro l WHERE l.exemplares > 0")
     List<Livro> buscarDisponiveis();
@@ -28,4 +33,7 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
 
     @Query("SELECT COUNT(l) FROM Livro l WHERE l.exemplares > 0")
     Long contarDisponiveis();
+
+    @Query("SELECT l FROM Livro l where l.exemplares > 0")
+    Page<Livro> buscarDiponiveisPaginado(Pageable pageable);
 }

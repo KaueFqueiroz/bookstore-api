@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
@@ -21,12 +26,6 @@ public class LivroController {
 
     @Autowired
     private AutorService autorService;
-
-
-    @GetMapping
-    public List<Livro> listarTodos(){
-        return livroService.listarTodos();
-    }
 
     @GetMapping("/{id}")
     public Livro buscarPorId(@PathVariable Long id) {
@@ -69,10 +68,6 @@ public class LivroController {
         return livroService.verFilaEspera();
     }
 
-    @GetMapping("/disponiveis")
-    public List<Livro> buscarDisponiveis(){
-        return livroService.buscarDisponiveis();
-    }
 
     @GetMapping("/buscar")
     public List<Livro> buscarPorTrechoTitulo(@RequestParam String titulo){
@@ -87,6 +82,24 @@ public class LivroController {
     @GetMapping("/count")
     public Long contarDisponiveis(){
         return livroService.contarDisponiveis();
+    }
+
+    @GetMapping
+    public Page<Livro> listarTodos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "titulo") String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy).ascending());
+        return livroService.listarTodosPaginado(pageable);
+    }
+
+    // GET /livros/disponiveis?page=0&size=2
+    @GetMapping("/disponiveis")
+    public Page<Livro> buscarDisponiveis(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("titulo").ascending());
+        return livroService.buscarDisponiveisPaginado(pageable);
     }
 
 }

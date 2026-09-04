@@ -4,13 +4,16 @@ import com.kauequeiroz.bookstore_api.model.Autor;
 import com.kauequeiroz.bookstore_api.model.FilaEspera;
 import com.kauequeiroz.bookstore_api.model.HistoricoOperacoes;
 import com.kauequeiroz.bookstore_api.model.Livro;
-import com.kauequeiroz.bookstore_api.model.exception.LivroIndisponivelException;
 import com.kauequeiroz.bookstore_api.model.exception.LivroNaoEncontradoException;
 import com.kauequeiroz.bookstore_api.repository.LivroRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class LivroService {
@@ -22,7 +25,7 @@ public class LivroService {
     private static HistoricoOperacoes historico = new HistoricoOperacoes();
 
     public Livro cadastrarLivro(String titulo, Autor autor, int anoPublicacao, int exemplares) {
-        return livroRepository.findByTituloIgnoreCase(titulo)
+        return livroRepository.findFirstByTituloIgnoreCase(titulo)
                 .map(livroExistente -> {
                     livroExistente.setExemplares(livroExistente.getExemplares() + exemplares);
                     historico.addOperacao("Atualização: " + titulo + " — exemplares adicionados: " + exemplares); // registra na pilha
@@ -88,7 +91,7 @@ public class LivroService {
     }
 
     private Livro buscarPorTitulo(String titulo) {
-        return livroRepository.findByTituloIgnoreCase(titulo)
+        return livroRepository.findFirstByTituloIgnoreCase(titulo)
                 .orElseThrow(() -> new LivroNaoEncontradoException("Livro '" + titulo + "' não encontrado."));
     }
 
@@ -107,5 +110,14 @@ public class LivroService {
     public Long contarDisponiveis(){
         return livroRepository.contarDisponiveis();
     }
+
+    public Page<Livro> listarTodosPaginado(Pageable pageable){
+        return  livroRepository.buscarDiponiveisPaginado(pageable);
+    }
+
+    public Page<Livro> buscarDisponiveisPaginado(Pageable pageable) {
+        return livroRepository.buscarDisponiveisPaginado(pageable);
+    }
+
 
 }
