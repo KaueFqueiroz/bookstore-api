@@ -93,7 +93,6 @@ public class LivroController {
         return livroService.listarTodosPaginado(pageable);
     }
 
-    // GET /livros/disponiveis?page=0&size=2
     @GetMapping("/disponiveis")
     public Page<Livro> buscarDisponiveis(
             @RequestParam(defaultValue = "0") int page,
