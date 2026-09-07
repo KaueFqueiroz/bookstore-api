@@ -41,15 +41,15 @@ public class LivroService {
         public String emprestimo(String titulo, String nomeCliente) {
         Livro livro = buscarPorTitulo(titulo);
         if (livro.getExemplares() <= 0) {
-            filaEspera.adicionarFila(nomeCliente); // adiciona o cliente na fila de espera
-            historico.addOperacao("Fila de espera: " + nomeCliente + " aguardando " + titulo); // registra na pilha
-            return "Livro indisponível. " + nomeCliente + " adicionado à fila de espera.";
+            String mensagemFila = filaEspera.adicionarFila(nomeCliente);
+            historico.addOperacao("Fila de espera: " + nomeCliente + " aguardando " + titulo);
+            return mensagemFila;
         }
 
         livro.setExemplares(livro.getExemplares() - 1);
         historico.addOperacao("Empréstimo: " + titulo + " para " + nomeCliente);
         livroRepository.save(livro);
-        return "Empréstimo de '" + titulo + "' realizado com sucesso!";
+        return "Empréstimo de '" + titulo + "' realizado com sucesso para " + nomeCliente;
     }
 
     public String devolucao(String titulo) {

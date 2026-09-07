@@ -28,7 +28,7 @@ public class HistoricoOperacoes {
            }
        }
 
-       public String desafazerUltimaOperacao(){
+       public String desfazerUltimaOperacao(){
             if (topo >= 0){
            return historico[topo--];
             }

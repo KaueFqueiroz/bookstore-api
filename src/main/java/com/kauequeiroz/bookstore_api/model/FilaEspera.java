@@ -17,10 +17,12 @@ public class FilaEspera {
        this.tamanho = 0;
    }
 
-   public void adicionarFila(String nomeCliente){
+   public String adicionarFila(String nomeCliente){
        if (tamanho < capacidade){
            fila[tamanho++] = nomeCliente;
+           return "Cliente " + nomeCliente + " adicionado á fila.";
        }
+       return "Fila de espera está cheia!";
    }
 
    public String removerPrimeiro(){
