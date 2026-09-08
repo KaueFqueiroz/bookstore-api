@@ -11,6 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,14 +31,51 @@ public class AutorServiceTest {
 
     @BeforeEach
     void setUp(){
-        autor = new Autor("Robert Martin", "americano");
+        autor = new Autor("Robert Martin", "Americano");
     }
 
     @Test
     void deveCadastrarAutor(){
         when(autorRepository.save(any(Autor.class))).thenReturn(autor);
 
+        Autor resultado = autorService.cadastrar("Robert Martin", "Americano");
 
+        assertEquals("Robert Martin", resultado.getNome());
+        assertEquals("Americano", resultado.getNacionalidade());
+        verify(autorRepository).save(any(Autor.class));
+
+    }
+
+    @Test
+    void deveListarTodosOsAutores(){
+        when(autorRepository.findAll()).thenReturn(List.of(autor));
+
+        List<Autor> resultado = autorService.listarTodos();
+
+        assertEquals(1, resultado.size());
+        assertEquals("Robert Martin", resultado.get(0).getNome());
+        verify(autorRepository).findAll();
+    }
+
+    @Test
+    void deveBuscarAutorPorID(){
+        when(autorRepository.findById(1L)).thenReturn(Optional.of(autor));
+
+        Autor resultado = autorService.buscarPorId(1L);
+
+        assertEquals("Robert Martin", resultado.getNome());
+        assertEquals("Americano", resultado.getNacionalidade());
+        verify(autorRepository).findById(1L);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoAutorNaoEncontrado(){
+        when(autorRepository.findById(99L)).thenReturn(Optional.empty());
+
+        RuntimeException excecao = assertThrows(RuntimeException.class, () -> autorService.buscarPorId(99L));
+
+        assertTrue(excecao.getMessage().contains("nao encontrado"));
+        verify(autorRepository).findById(99L);
     }
 
 
