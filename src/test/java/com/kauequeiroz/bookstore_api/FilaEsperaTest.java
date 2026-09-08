@@ -10,8 +10,6 @@ public class FilaEsperaTest {
 
     private FilaEspera fila;
 
-
-
     @BeforeEach
     void setUp(){
         fila = new FilaEspera();
@@ -61,7 +59,7 @@ public class FilaEsperaTest {
 
         String mensagem = fila.adicionarFila("Cliente Extra");
 
-        assertEquals("Fila de espera está cheia", mensagem);
+        assertEquals("Fila de espera está cheia!", mensagem);
     }
 
 
