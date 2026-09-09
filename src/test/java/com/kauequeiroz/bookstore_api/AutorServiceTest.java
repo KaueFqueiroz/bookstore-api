@@ -74,7 +74,7 @@ public class AutorServiceTest {
 
         RuntimeException excecao = assertThrows(RuntimeException.class, () -> autorService.buscarPorId(99L));
 
-        assertTrue(excecao.getMessage().contains("nao encontrado"));
+        assertTrue(excecao.getMessage().contains("Autor não encontrado"));
         verify(autorRepository).findById(99L);
     }
 

@@ -25,6 +25,6 @@ public class AutorService {
 
     public Autor buscarPorId(Long id){
         return autorRepository.findById(id)
-                .orElseThrow(( ) -> new RuntimeException("Autor não encontado"));
+                .orElseThrow(( ) -> new RuntimeException("Autor não encontrado"));
     }
 }
