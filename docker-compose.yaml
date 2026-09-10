@@ -1,0 +1,28 @@
+services:
+
+    db:
+      image: postgres:16
+      container_name: bibliotecadb
+      environment:
+        POSTGRES_DB: bibliotecadb
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+    api:
+      build: .
+      container_name: bookstore-api
+      environment:
+        DB_PASSWORD: postgres
+        SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bibliotecadb
+        SPRING_DATASOURCE_USERNAME: postgres
+      ports:
+        - "8080:8080"
+      depends_on:
+        - db
+
+volumes:
+  postgres_data:
